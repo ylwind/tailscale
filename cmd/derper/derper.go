@@ -298,6 +298,8 @@ func main() {
 		}
 		err = rateLimitedListenAndServeTLS(httpsrv)
 	} else {
+		log.Printf("derper: serving on %s", *addr)
+		err = httpsrv.ListenAndServe()
 	}
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatalf("derper: %v", err)
@@ -422,7 +424,7 @@ func rateLimitedListenAndServeTLS(srv *http.Server) error {
 	}
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
-		return err
+		return ""
 	}
 	rln := newRateLimitedListener(ln, rate.Limit(*acceptConnLimit), *acceptConnBurst)
 	expvar.Publish("tls_listener", rln.ExpVar())
