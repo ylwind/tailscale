@@ -298,8 +298,6 @@ func main() {
 		}
 		err = rateLimitedListenAndServeTLS(httpsrv)
 	} else {
-		log.Printf("derper: serving on %s", *addr)
-		err = httpsrv.ListenAndServe()
 	}
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatalf("derper: %v", err)
