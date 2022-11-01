@@ -422,10 +422,7 @@ func rateLimitedListenAndServeTLS(srv *http.Server) error {
 	if addr == "" {
 		addr = ":https"
 	}
-	ln, err := net.Listen("tcp", addr)
-	if err != nil {
-		return ""
-	}
+	ln, _ := net.Listen("tcp", addr)
 	rln := newRateLimitedListener(ln, rate.Limit(*acceptConnLimit), *acceptConnBurst)
 	expvar.Publish("tls_listener", rln.ExpVar())
 	defer rln.Close()
