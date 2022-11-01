@@ -183,6 +183,9 @@ func main() {
 	mux.HandleFunc("/derp/probe", probeHandler)
 	go refreshBootstrapDNSLoop()
 	mux.HandleFunc("/bootstrap-dns", handleBootstrapDNS)
+	mux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(500)}))
 	mux.Handle("/generate_204", http.HandlerFunc(serveNoContent))
 	debug := tsweb.Debugger(mux)
 	debug.KV("TLS hostname", *hostname)
